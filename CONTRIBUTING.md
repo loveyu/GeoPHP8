@@ -16,7 +16,7 @@ The image specified in `Dockerfile` file will be compiled and run.
 
 You need the following tools installed:
 
-- PHP 7.x
+- PHP 8.x
 - [Composer](https://getcomposer.org/)
 
 

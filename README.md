@@ -6,7 +6,7 @@ GeoPHP is a library of geospatial functions based on GeoRust and Turf.js.
 
 Install the library running:
 
-`composer require jware/geophp`
+`composer require loveyu/geophp8`
 
 ## Usage
 
