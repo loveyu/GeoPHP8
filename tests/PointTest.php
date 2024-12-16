@@ -1,35 +1,46 @@
 <?php
 
-use \JWare\GeoPHP\Point;
-use \JWare\GeoPHP\Line;
-use \JWare\GeoPHP\Polygon;
+use JWare\GeoPHP\Line;
+use JWare\GeoPHP\Point;
+use JWare\GeoPHP\Polygon;
+use PHPUnit\Framework\TestCase;
 
-class PointTest extends \PHPUnit\Framework\TestCase {
-	public function testInstantiationOfPoint() {
-		$this->assertInstanceOf('\JWare\GeoPHP\Point', new Point(0, 0));
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class PointTest extends TestCase
+{
+    public function testInstantiationOfPoint(): void
+    {
+        $this->assertInstanceOf('\JWare\GeoPHP\Point', new Point(0, 0));
     }
 
     /**
-     * Tests clone method
+     * Tests clone method.
      */
-    public function testClone() {
+    public function testClone(): void
+    {
         $point = new Point(3, 4);
         $clone = $point->clone();
         $this->assertEquals($clone->getXAndY(), $point->getXandY());
     }
 
     /**
-     * Tests X and Y getter
+     * Tests X and Y getter.
      */
-    public function testGetXandY() {
+    public function testGetXandY(): void
+    {
         $point = new Point(3, 4);
         $this->assertEquals([3, 4], $point->getXandY());
     }
 
     /**
-     * Tests whether two points are the same
+     * Tests whether two points are the same.
      */
-    public function testIsEqual() {
+    public function testIsEqual(): void
+    {
         $point1 = new Point(1, 2);
         $point2 = new Point(1, 2);
         $point3 = new Point(3, 23.3);
@@ -41,19 +52,21 @@ class PointTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Test magnitude computation
+     * Test magnitude computation.
      */
-    public function testGetMagnitude() {
+    public function testGetMagnitude(): void
+    {
         $magnitude1 = (new Point(0, 0))->getMagnitude();
         $this->assertEquals(0, $magnitude1);
         $magnitude2 = (new Point(1, 2))->getMagnitude();
-        $this->assertEquals(2.236067977, round($magnitude2, $precision=9));
+        $this->assertEquals(2.236067977, round($magnitude2, $precision = 9));
     }
 
     /**
-     * Test conversion from radians to degrees
+     * Test conversion from radians to degrees.
      */
-    public function fromRadiansToDegrees() {
+    public function fromRadiansToDegrees(): void
+    {
         $point1 = new Point(1, 0);
         $point2 = new Point(2, 3);
         $point1Converted = $point1->fromRadiansToDegrees();
@@ -71,9 +84,10 @@ class PointTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Test conversion from degrees to radians
+     * Test conversion from degrees to radians.
      */
-    public function fromDegreesToRadians() {
+    public function fromDegreesToRadians(): void
+    {
         $point1 = new Point(57.29578, 0);
         $point2 = new Point(114.5916, 171.8873);
         $point1Converted = $point1->fromDegreesToRadians();
@@ -91,32 +105,35 @@ class PointTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Tests getting the angle between two points
+     * Tests getting the angle between two points.
      */
-    public function testGetAngle() {
+    public function testGetAngle(): void
+    {
         $point1 = new Point(2, 0);
         $point2 = new Point(2, 2);
         $point3 = new Point(0, 2);
 
-        $this->assertEquals(45, $point1->getAngle($point2));
-        $this->assertEquals(45, $point2->getAngle($point3));
-        $this->assertEquals(90, $point1->getAngle($point3));
+        $this->assertEquals('45', (string) $point2->getAngle($point3));
+        $this->assertEquals('45', (string) $point1->getAngle($point2));
+        $this->assertEquals('90', (string) $point1->getAngle($point3));
     }
-    
+
     /**
      * Tests the dot product of the two points:
-     * dot = x1 * x2 + y1 * y2
+     * dot = x1 * x2 + y1 * y2.
      */
-    public function testDotProduct() {
+    public function testDotProduct(): void
+    {
         $point1 = new Point(2, 4.5);
         $dot = $point1->dotProduct(new Point(1.5, 0.5));
         $this->assertEquals(5.25, $dot);
     }
 
     /**
-     * Tests the cross product of three point
+     * Tests the cross product of three point.
      */
-    public function testCrossProduct() {
+    public function testCrossProduct(): void
+    {
         $pointA = new Point(1, 2);
         $pointB = new Point(3, 5);
         $pointC = new Point(7, 12);
@@ -126,20 +143,22 @@ class PointTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Tests the euclidean distance between two points
+     * Tests the euclidean distance between two points.
      */
-    public function testEuclideanDistance() {
+    public function testEuclideanDistance(): void
+    {
         $point1 = new Point(1, 2);
-        $this->assertEquals(4.243, round($point1->euclideanDistance(new Point(4, 5)), $precision=3),);
-        
+        $this->assertEquals(4.243, round($point1->euclideanDistance(new Point(4, 5)), $precision = 3));
+
         $point2 = new Point(1, 4);
-        $this->assertEquals(1.414, round($point2->euclideanDistance(new Point(2, 5)), $precision=3),);
+        $this->assertEquals(1.414, round($point2->euclideanDistance(new Point(2, 5)), $precision = 3));
     }
 
     /**
-     * Test intersection method
+     * Test intersection method.
      */
-    public function testIntersects() {
+    public function testIntersects(): void
+    {
         // Lines
         $line1 = new Line(
             new Point(1, 1),
@@ -159,7 +178,7 @@ class PointTest extends \PHPUnit\Framework\TestCase {
             new Point(2, 7),
             new Point(4, 5),
             new Point(7, 5),
-            new Point(1, 1)
+            new Point(1, 1),
         ]);
 
         // With Point
@@ -178,5 +197,3 @@ class PointTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($point3->intersectsPolygon($polygon));
     }
 }
-
-?>

@@ -1,4 +1,4 @@
-FROM php:7.3-stretch
+FROM php:8.1-bookworm
 
 # Installs dependences
 RUN apt update \

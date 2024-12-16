@@ -1,21 +1,30 @@
 <?php
 
-use \JWare\GeoPHP\Line;
-use \JWare\GeoPHP\Point;
-use \JWare\GeoPHP\Polygon;
+use JWare\GeoPHP\Line;
+use JWare\GeoPHP\Point;
+use JWare\GeoPHP\Polygon;
+use PHPUnit\Framework\TestCase;
 
-class LineTest extends \PHPUnit\Framework\TestCase {
-	public function testInstantiationOfLine() {
-		$this->assertInstanceOf('\JWare\GeoPHP\Line', new Line(
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class LineTest extends TestCase
+{
+    public function testInstantiationOfLine(): void
+    {
+        $this->assertInstanceOf('\JWare\GeoPHP\Line', new Line(
             new Point(0, 0),
             new Point(1, 1)
         ));
     }
 
     /**
-     * Tests clone method
+     * Tests clone method.
      */
-    public function testClone() {
+    public function testClone(): void
+    {
         $line = new Line(
             new Point(0, 0),
             new Point(1, 1)
@@ -25,9 +34,10 @@ class LineTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Tests the determinant of the line
+     * Tests the determinant of the line.
      */
-    public function testDeterminant() {
+    public function testDeterminant(): void
+    {
         $line1 = new Line(
             new Point(1.34, 2.87),
             new Point(3.23, 4.5)
@@ -38,7 +48,7 @@ class LineTest extends \PHPUnit\Framework\TestCase {
             new Point(1.34, 2.87)
         );
 
-        $this->assertEquals(-3.2401, $line1->determinant());
+        $this->assertEquals('-3.2401', (string) $line1->determinant());
 
         // NOTE: Line(a, b).determinant() == -Line(b, a).determinant()
         $this->assertEquals($line1->determinant(), -$line2->determinant());
@@ -47,7 +57,8 @@ class LineTest extends \PHPUnit\Framework\TestCase {
     /**
      * Tests the difference in 'x' components (Δx).
      */
-    public function testDx() {
+    public function testDx(): void
+    {
         $line1 = new Line(
             new Point(2.77, 4.23),
             new Point(2.77, 7.23)
@@ -66,7 +77,8 @@ class LineTest extends \PHPUnit\Framework\TestCase {
     /**
      * Tests the difference in 'y' components (Δy).
      */
-    public function testDy() {
+    public function testDy(): void
+    {
         $line1 = new Line(
             new Point(2.77, 4.23),
             new Point(2.77, 7.23)
@@ -83,9 +95,10 @@ class LineTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Tests the slope of a line
+     * Tests the slope of a line.
      */
-    public function testSlope() {
+    public function testSlope(): void
+    {
         $line1 = new Line(
             new Point(2.87, 4.23),
             new Point(2.77, 7)
@@ -106,18 +119,19 @@ class LineTest extends \PHPUnit\Framework\TestCase {
             new Point(2, 11)
         );
 
-        $this->assertEquals(-27.7, $line1->slope());
-        $this->assertEquals(-8.8926356589147, $line2->slope());
-        
+        $this->assertEquals('-27.7', (string) $line1->slope());
+        $this->assertEquals('-8.8926356589147', (string) $line2->slope());
+
         // NOTE: Line(a, b).slope() == Line(b, a).slope()
         $this->assertEquals($line2->slope(), $line3->slope());
         $this->assertEquals(INF, $line4->slope());
     }
 
     /**
-     * Test intersection method
+     * Test intersection method.
      */
-    public function testIntersects() {
+    public function testIntersects(): void
+    {
         // Lines
         $line1 = new Line(
             new Point(1, 1),
@@ -146,14 +160,14 @@ class LineTest extends \PHPUnit\Framework\TestCase {
             new Point(4, 2),
             new Point(3, 1),
             new Point(2.5, 3),
-            new Point(2, 4)
+            new Point(2, 4),
         ]);
 
         $polygon2 = new Polygon([
             new Point(-3, -4),
             new Point(-1, -5),
             new Point(-2, -6),
-            new Point(-3, -4)
+            new Point(-3, -4),
         ]);
 
         // With Point
@@ -180,5 +194,3 @@ class LineTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($line3->intersectsPolygon($polygon1));
     }
 }
-
-?>

@@ -1,24 +1,32 @@
 <?php
 
-use \JWare\GeoPHP\Polygon;
-use \JWare\GeoPHP\Point;
-use \JWare\GeoPHP\Line;
-use \JWare\GeoPHP\Exceptions\NotEnoughPointsException;
-use \JWare\GeoPHP\Exceptions\FirstAndLastPointNotEqualException;
-use \JWare\GeoPHP\Exceptions\SettingPointException;
+use JWare\GeoPHP\Exceptions\FirstAndLastPointNotEqualException;
+use JWare\GeoPHP\Exceptions\NotEnoughPointsException;
+use JWare\GeoPHP\Exceptions\SettingPointException;
+use JWare\GeoPHP\Line;
+use JWare\GeoPHP\Point;
+use JWare\GeoPHP\Polygon;
+use PHPUnit\Framework\TestCase;
 
-class PolygonTest extends \PHPUnit\Framework\TestCase {
-	public function testInstantiationOfPolygon() {
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class PolygonTest extends TestCase
+{
+    public function testInstantiationOfPolygon(): void
+    {
         $somePoint = new Point(0, 0);
         $otherPoint = new Point(1, 0);
         $otherPoint2 = new Point(1, 1);
-        
+
         // Checks correct instance
-		$this->assertInstanceOf('\JWare\GeoPHP\Polygon', new Polygon([
+        $this->assertInstanceOf('\JWare\GeoPHP\Polygon', new Polygon([
             $somePoint,
             $otherPoint,
             $otherPoint2,
-            $somePoint
+            $somePoint,
         ]));
 
         // Checks invalid Polygons
@@ -27,7 +35,7 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
         $invalidPolygon2 = new Polygon([
             new Point(0, 1),
             new Point(3, 1),
-            new Point(1, 1) 
+            new Point(1, 1),
         ]);
 
         $this->expectException(FirstAndLastPointNotEqualException::class);
@@ -35,14 +43,15 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
             new Point(0, 1),
             new Point(3, 1),
             new Point(4, 2),
-            new Point(1, 1) // Not equals to first point
+            new Point(1, 1), // Not equals to first point
         ]);
     }
 
     /**
-     * Tests clone method
+     * Tests clone method.
      */
-    public function testClone() {
+    public function testClone(): void
+    {
         $polygon = new Polygon([
             new Point(0, 0),
             new Point(4, 0),
@@ -55,9 +64,10 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Tests setPoint method
+     * Tests setPoint method.
      */
-    public function testSetPoint() {
+    public function testSetPoint(): void
+    {
         $polygon = new Polygon([
             new Point(0, 0),
             new Point(4, 0),
@@ -77,25 +87,27 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Tests getCentroid method
+     * Tests getCentroid method.
      */
-    public function testGetCentroid() {
+    public function testGetCentroid(): void
+    {
         $polygon = new Polygon([
             new Point(-81, 41),
             new Point(-88, 36),
             new Point(-84, 31),
             new Point(-80, 33),
             new Point(-77, 39),
-            new Point(-81, 41)
+            new Point(-81, 41),
         ]);
         $centroid = $polygon->getCentroid();
         $this->assertEquals(new Point(-82, 36), $centroid);
     }
 
     /**
-     * Test the area computation
+     * Test the area computation.
      */
-    public function testArea() {
+    public function testArea(): void
+    {
         $polygon1 = new Polygon([
             new Point(0, 0),
             new Point(4, 0),
@@ -108,7 +120,7 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
             new Point(0, 0),
             new Point(4, 0),
             new Point(2, 4),
-            new Point(0, 0)
+            new Point(0, 0),
         ]);
 
         $this->assertEquals(16, $polygon1->area());
@@ -116,15 +128,16 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Test contains method
+     * Test contains method.
      */
-    public function testContains() {
+    public function testContains(): void
+    {
         $polygon1 = new Polygon([
             new Point(0, 0),
             new Point(4, 0),
             new Point(4, 4),
             new Point(0, 4),
-            new Point(0, 0)
+            new Point(0, 0),
         ]);
 
         $polygon2 = new Polygon([
@@ -132,21 +145,21 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
             new Point(8, 0),
             new Point(8, 4),
             new Point(4, 4),
-            new Point(4, 0)
+            new Point(4, 0),
         ]);
 
         $polygon3 = new Polygon([
             new Point(1, 2),
             new Point(2, 2),
             new Point(2, 3),
-            new Point(1, 2)
+            new Point(1, 2),
         ]);
 
         $polygon4 = new Polygon([
             new Point(3, 4),
             new Point(4, 5),
             new Point(3, 5),
-            new Point(3, 4)
+            new Point(3, 4),
         ]);
 
         $polygon5 = new Polygon([
@@ -154,7 +167,7 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
             new Point(2, 1),
             new Point(3, -1),
             new Point(2, -2),
-            new Point(1, -1)
+            new Point(1, -1),
         ]);
 
         $line1 = new Line(
@@ -187,9 +200,10 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
     }
 
     /**
-     * Test intersection method
+     * Test intersection method.
      */
-    public function testIntersects() {
+    public function testIntersects(): void
+    {
         // Polygons
         $polygon1 = new Polygon([
             new Point(2, 4),
@@ -197,14 +211,14 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
             new Point(5, 2),
             new Point(3, 1),
             new Point(2.5, 3),
-            new Point(2, 4)
+            new Point(2, 4),
         ]);
 
         $polygon2 = new Polygon([
             new Point(-3, -4),
             new Point(-1, -5),
             new Point(-2, -6),
-            new Point(-3, -4)
+            new Point(-3, -4),
         ]);
 
         $polygon3 = new Polygon([
@@ -212,7 +226,7 @@ class PolygonTest extends \PHPUnit\Framework\TestCase {
             new Point(6, 2.5),
             new Point(6, 1.5),
             new Point(4.5, 1.25),
-            new Point(4, 3)
+            new Point(4, 3),
         ]);
 
         $polygon4 = new Polygon([
