@@ -1,5 +1,5 @@
 {
-    "name": "jware/geophp",
+    "name": "loveyu/geophp8",
     "description": "A little geo spatial library for PHP based on Geo Rust and Turf.js",
     "type": "library",
     "license": "MIT",
